@@ -4,7 +4,7 @@ export interface Product {
     images: string[];
     inStock: number;
     price: number;
-    sizes: ValidSizes[];
+    sizes: Size[];
     slug: string;
     tags: string[];
     title: string;
@@ -12,5 +12,5 @@ export interface Product {
     gender: 'men' | 'women' | 'kid' | 'unisex'
 }
 
-export type ValidSizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
+export type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
 export type ValidTypes = 'shirts' | 'pants' | 'hoodies' | 'hats';
