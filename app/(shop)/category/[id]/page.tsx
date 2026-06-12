@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { initialData } from "@/app/seed";
+import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
 import { Title } from "@/components";
 import CategoryGrid from "@/components/category/category-grid/category-grid";

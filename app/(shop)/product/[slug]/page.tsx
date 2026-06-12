@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { initialData } from "@/app/seed";
+import { initialData } from "@/seed/seed";
 import { titleFont } from "@/config/fonts";
 import { SizeSelector } from "@/components/products/size-selector/size-selector";
 import { QuantitySelector, Slideshow, SlideshowMobile } from "@/components";

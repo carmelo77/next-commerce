@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { Title } from "@/components";
-import { initialData } from "@/app/seed";
+import { initialData } from "@/seed/seed";
 import clsx from "clsx";
 import { IoCardOutline } from "react-icons/io5";
 

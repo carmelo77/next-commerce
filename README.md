@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# E-Commerce Básico (Next.js & TypeScript)
 
-## Getting Started
+E-commerce básico creado con Next.js y TypeScript para practicar Server-Side Rendering (SSR), Client-Side Rendering (CSR), Server Actions, y más.
 
-First, run the development server:
+## Requisitos Previos
 
+- [Node.js](https://nodejs.org/) (versión recomendada LTS)
+- [pnpm](https://pnpm.io/) (gestor de paquetes)
+- [Docker](https://www.docker.com/) (para levantar la base de datos localmente)
+
+## Nota sobre Prisma v7 y Driver Adapters
+
+Este proyecto utiliza **Prisma v7**, el cual introduce una arquitectura libre de binarios Rust de manera predeterminada. Por este motivo, el cliente requiere obligatoriamente el uso de un **Driver Adapter** para conectarse a la base de datos PostgreSQL.
+
+Para que funcione correctamente:
+1. Se han instalado los paquetes `pg` y `@prisma/adapter-pg` en el proyecto.
+2. El archivo de inicialización del cliente en [prisma/client.ts](file:///Users/pc/Documents/Next/next-commerce/prisma/client.ts) está configurado para instanciar un `Pool` de `pg` y pasar el adaptador `PrismaPg` a `new PrismaClient({ adapter })`.
+3. Es obligatorio contar con la variable `DATABASE_URL` en el archivo `.env` para que el pool de conexiones funcione tanto en el servidor Next.js como en los scripts locales ejecutados con `ts-node` (ej. el script de seed).
+
+## Pasos para la Configuración Inicial
+
+Sigue estos pasos en orden para configurar y ejecutar el proyecto localmente:
+
+### 1. Instalar Dependencias
+Instala todos los paquetes requeridos por el proyecto:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configurar Variables de Entorno
+Copia el archivo de ejemplo `.env.example` y renómbralo a `.env`:
+```bash
+cp .env.example .env
+```
+Abre el archivo `.env` recién creado y ajusta la configuración de la base de datos si es necesario (por defecto viene configurada para funcionar con el contenedor de Docker).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Levantar Base de Datos
+Inicia el contenedor de la base de datos Postgres usando Docker Compose:
+```bash
+docker-compose up -d
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Ejecutar Migraciones de Prisma
+Aplica las migraciones a la base de datos para crear las tablas necesarias:
+```bash
+pnpm prisma migrate dev
+```
 
-## Learn More
+### 5. Generar Prisma Client
+Genera el cliente de Prisma para obtener tipos y autocompletado en el proyecto:
+```bash
+pnpm prisma generate
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 6. Poblar la Base de Datos (Seed)
+Ejecuta el script de seed para poblar la base de datos con categorías, productos e imágenes iniciales de prueba:
+```bash
+pnpm run seed
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Ejecución del Proyecto
 
-## Deploy on Vercel
+### Desarrollo
+Para iniciar el servidor de desarrollo local con recarga rápida:
+```bash
+pnpm run dev
+```
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la aplicación.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Producción
+Para compilar la aplicación y ejecutarla en modo producción:
+```bash
+pnpm run build
+pnpm run start
+```
